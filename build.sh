@@ -1,7 +1,15 @@
 #!/bin/bash
 
 mkdir -p target
+ARCH=amd64
 for OS in darwin linux windows ; do
-  GOOS=${OS} go build -o target/julius-dump.${OS}
+  SUFFIX=""
+	if [ "${OS}" = "windows" ]; then
+    SUFFIX=".exe"
+	fi
+  GOOS=${OS} go build -o target/julius-dump.${OS}.${ARCH}${SUFFIX}
 done
-GOOS=linux GOARCH=arm go build -o target/julius-dump.linux.arm
+
+OS=linux
+ARCH=arm64
+GOOS=${OS} GOARCH=${ARCH} go build -o target/julius-dump.${OS}.${ARCH}
